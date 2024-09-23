@@ -1,0 +1,39 @@
+---
+title: "R_assignment_0923"
+author: "he-ping"
+date: "2024-09-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Download reef_fish.xlsx, save it in a working directory you dedicated for this course, and import it in R. Do the same after converting this reef_fish file into a .txt format
+
+## Reading the file
+
+```{r}
+# importing a .xlsx file
+library(readxl)
+fish<-read_excel("C:/Users/peace/Downloads/reef_fish.xlsx") # store my table in an object called `fish`
+fish # print my object `fish` 
+```
+
+```{r cars}
+# importing a .txt file
+fish_table <-read.table("C:/Users/peace/Downloads/reef_fish.txt", header=T, sep='\t', dec='.') 
+fish
+```
+
+## Including Plots
+
+import data set and create an object in R studio + simple plot
+
+```{r}
+fish<-read.table("C:/Users/peace/Downloads/reef_fish.txt", header=T, sep='\t', dec='.')
+barplot(fish$richness, main="Top 10 reef fish Richness (Allen, 2000)", horiz=TRUE, names.arg=fish$country, cex.names=0.5, las=1) 
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
