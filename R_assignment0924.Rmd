@@ -1,0 +1,51 @@
+---
+title: "R_assignment_0924"
+author: "he-ping"
+date: "2024-09-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Practice 2.1
+
+Using the iris data set, create three smaller data sets corresponding to the three species designated in the column Species.
+
+```{r }
+#read the data
+library(datasets)
+data(iris)
+iris
+```
+
+```{r }
+setosa <- iris$Species == "setosa"
+iris_setosa <- iris[setosa,]
+iris_setosa
+```
+
+```{r }
+versicolor <- iris$Species == "versicolor"
+iris_versicolor <- iris[versicolor,]
+iris_versicolor
+```
+
+```{r cars}
+virginica <- iris$Species == "virginica"
+iris_virginica <- iris[virginica,]
+iris_virginica
+```
+
+
+```
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -35,5 +35,11 @@ fish<-read.table("C:/Users/peace/Downloads/reef_fish.txt", header=T, sep='\t', d
 barplot(fish$richness, main="Top 10 reef fish Richness (Allen, 2000)", horiz=TRUE, names.arg=fish$country, cex.names=0.5, las=1) 
 ```
 
-
+```{r}
+##add file in the terminal
+#git add .
+#git commit "add data"
+#git push origin master/push
+```
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
