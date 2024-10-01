@@ -1,16 +1,16 @@
 ######################
-### dplyr#############
+### (1.0.0) dplyr#############
 ######################
 install.packages("tidyverse")
 library(dplyr)
 data(iris)
 
-### Summarize#############
+### (1.1.0)Summarize#############
 sum <- summarise(iris, Mean.width = mean(iris$Sepal.Width))
 head(sum)
 
-### Manipulate#############
-### select
+### (1.2.0)Manipulate#############
+### (1.2.1)select
 # (1) by column names
 selection1 <- dplyr::select(iris, Sepal.Length, Sepal.Width, Petal.Length)
 head(selection1) 
@@ -24,7 +24,7 @@ head(selection3)
 selection4 <- dplyr::select(iris, -Sepal.Length, -Sepal.Width)
 head(selection4)
 
-### filter
+### (1.2.2)filter
 # (1) Select setosa species
 filtered1 <- filter(iris, Species == "setosa" )
 head(filtered1,3)
@@ -32,14 +32,14 @@ head(filtered1,3)
 filtered2 <- filter(iris, Species == "versicolor", Sepal.Width > 3)
 tail(filtered2)
 
-### mutate <- create new columns 
+### (1.2.3)mutate <- create new columns 
 # (1) To create a column “Greater.Half” which stores a logical vector (T/F)
 mutated1 <- mutate(iris, Greater.Half = Sepal.Width > 0.5 * Sepal.Length)
 tail(mutated1)
 head(mutated1)
 table(mutated1$Greater.Half)
 
-### arrange
+### (1.2.4)arrange
 # (1) Sepal Width by ascending order
 arranged1 <- arrange(iris, Sepal.Width)
 head(arranged1)
@@ -48,15 +48,72 @@ arranged2 <- arrange(iris, desc(Sepal.Width))
 arranged2 <- arrange(iris, -Sepal.Width)
 head(arranged2)
 
-### group_by
+### (1.2.5)group_by
 # Mean sepal width by Species
 gp <- group_by(iris, Species)
 gp.mean <- summarise(gp,Mean.Sepal = mean(Sepal.Width))
 gp.mean
 
-### Pipe operator############
+### (1.3.0)Pipe operator############
+#To select the rows with conditions
+iris %>% filter(Species == "setosa",Sepal.Width > 3.8)
+iris  %>% 
+  group_by(Species) %>% 
+  summarise(Mean.Length = mean(Sepal.Length))
+
+######################
+### (2.0.0)tidyr#############
+######################
+
+### (2.1.0)Pivoting#############
+### (2.1.1)Pivoting- simple data
+library (tidyr)
+TW_corals<-read.table('C:/Users/peace/Downloads/tw_corals.txt', header=T, sep='\t', dec='.') 
+TW_corals
+
+# (1) pivot_longer
+TW_corals_long <- TW_corals %>%
+  pivot_longer(Southern_TW:Northern_Is, names_to = "Region", values_to = "Richness")
+# TW_corals_long <-TW_corals %>% 
+#     pivot_longer(cols = everything(), names_to = "Region", values_to = "Richness") 
+TW_corals_long
+
+# (2) pivot_wider
+TW_corals_wide <- TW_corals_long %>%
+  pivot_wider( names_from = Region, values_from = Richness) 
+TW_corals_wide
+
+### (2.1.2)Pivoting- simple data
+library (tidyr)
+income<-read.table('C:/Users/peace/Downloads/metoo.txt',header=T, sep="\t", dec=".", na.strings = "n/a")
+income
+
+# (1) pivot_longer
+income_long <- income %>%  pivot_longer(cols = -state, 
+                                        names_to = c("gender","work"), 
+                                        names_sep = "_", 
+                                        values_to = "income")
+income_long
+
+# (2) pivot_wider
+income_long %>% pivot_wider(names_from = c(gender,work), 
+                            values_from = income,
+                            names_sep = ".")
 
 
+### (2.2.0)Splitting
+# (2.2.1) Columns
+# Let's first create a delimited table
+income_long_var <- income %>%  pivot_longer(cols = -1, 
+                                            names_to = "var1", 
+                                            values_to = "income")
+income_long_var
 
+# [separate] Split var1 column into two columns
+income_sep <- income_long_var %>%  separate(col = var1, 
+                                            sep = "_", 
+                                            into = c("gender", "work"))
+income_sep
 
-
+# (2.2.2) Columns
+income_long_var %>% separate_rows(var1, sep = "_")
